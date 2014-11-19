@@ -96,14 +96,14 @@ void USART1_Configuration(void)
 
     /* USARTx configuration ------------------------------------------------------*/
     /* USARTx configured as follow:
-     *  - BaudRate = 9600 baud
+     *  - BaudRate = 57600 baud
      *  - Word Length = 8 Bits
      *  - One Stop Bit
      *  - No parity
      *  - Hardware flow control disabled (RTS and CTS signals)
      *  - Receive and transmit enabled
      */
-    USART_InitStructure.USART_BaudRate = 115200;
+    USART_InitStructure.USART_BaudRate = 57600;
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
     USART_InitStructure.USART_StopBits = USART_StopBits_1;
     USART_InitStructure.USART_Parity = USART_Parity_No;
@@ -135,48 +135,18 @@ int main(void)
     {
         LED3_Toggle();
 
-        // while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
-        // char t = USART_ReceiveData(USART1);
-        // if ((t == '\r')) {
-        //     while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-        //     USART_SendData(USART1, t);
-        //     t = '\n';
-        // }
-        // while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-        // USART_SendData(USART1, t);
+        while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
+        char t = USART_ReceiveData(USART1);
+        if ((t == '\r')) {
+            while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+            USART_SendData(USART1, t);
+            t = '\n';
+        }
+        while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+        USART_SendData(USART1, t);
 
-
-
-        USART1_puts("Hello World!\r\n");
-        USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
     }
 
     while(1); // Don't want to exit
 }
-#ifdef  USE_FULL_ASSERT
 
-/**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
-void assert_failed(uint8_t* file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-
-  /* Infinite loop */
-  while (1)
-  {
-  }
-}
-#endif
-
-/**
-  * @}
-  */
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
