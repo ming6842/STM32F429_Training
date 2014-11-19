@@ -8,4 +8,6 @@ cscope*
 *.swn
 *.swo
 *.gch
+*.hex
+*.lst
 *.*~
