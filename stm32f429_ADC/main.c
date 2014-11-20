@@ -138,12 +138,15 @@ int main(void)
     GPIO_Configuration();
     USART1_Configuration();
     LED_Initialization();
-
+    ADC_Initialization();
 
     uint16_t adc_data=0;
-
+    int i=0;
     USART1_puts("Hello World!\r\n");
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
+    
+    ADC_SoftwareStartConv(ADC3);
+
     while(1)
     {
         LED3_Toggle();
@@ -151,9 +154,14 @@ int main(void)
         adc_data = ADC_GetConversionValue(ADC3);
 
         sprintf((char *)buff_transmit, "%d\r\n",(adc_data));
-          
-        //sprintf((char *)buff_transmit, "%ld,\r\n",adc_data);
+          USART1_puts((char *)buff_transmit);
 
+          for (i=0;i<50;i++){
+
+            buff_transmit[i]=0;
+          }
+        //sprintf((char *)buff_transmit, "%ld,\r\n",adc_data);
+        Delay_1us(100000);
     }
 
     while(1); // Don't want to exit
