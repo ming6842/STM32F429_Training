@@ -1,6 +1,6 @@
 
 #include "main.h"
-
+#include <stdio.h>
 
 void RCC_Configuration(void)
 {
@@ -130,27 +130,29 @@ void USART1_puts(char* s)
 }
 
 /**************************************************************************************/
+
+uint8_t buff_transmit[100];
 int main(void)
 {
     RCC_Configuration();
     GPIO_Configuration();
     USART1_Configuration();
     LED_Initialization();
+
+
+    uint16_t adc_data=0;
+
     USART1_puts("Hello World!\r\n");
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
     while(1)
     {
         LED3_Toggle();
 
-        while(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
-        char t = USART_ReceiveData(USART1);
-        if ((t == '\r')) {
-            while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-            USART_SendData(USART1, t);
-            t = '\n';
-        }
-        while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-        USART_SendData(USART1, t);
+        adc_data = ADC_GetConversionValue(ADC3);
+
+        sprintf((char *)buff_transmit, "%d\r\n",(adc_data));
+          
+        //sprintf((char *)buff_transmit, "%ld,\r\n",adc_data);
 
     }
 
