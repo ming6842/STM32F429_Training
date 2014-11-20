@@ -160,7 +160,7 @@ int main(void)
 
             buff_transmit[i]=0;
           }
-        //sprintf((char *)buff_transmit, "%ld,\r\n",adc_data);
+          
         Delay_1us(100000);
     }
 
