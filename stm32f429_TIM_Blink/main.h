@@ -5,6 +5,7 @@
 
  #include "stm32f4xx.h"
 
+#include "stm32f4xx_tim.h"
 
 static inline void Delay_1us(uint32_t);
 static inline void Delay_1us(uint32_t nCnt_1us)

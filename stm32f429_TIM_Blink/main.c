@@ -47,6 +47,35 @@ void LED_Initialization(void){
 
 }
 
+
+void Timer_Initialization(void)
+{
+
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM9, ENABLE);
+  NVIC_InitTypeDef NVIC_InitStructure;
+
+  /* Enable the TIM2 global Interrupt */
+  NVIC_InitStructure.NVIC_IRQChannel =  TIM1_BRK_TIM9_IRQn ;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+
+  NVIC_Init(&NVIC_InitStructure);
+
+  /* -- Timer Configuration --------------------------------------------------- */
+  TIM_DeInit(TIM9);
+  TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
+  TIM_TimeBaseStruct.TIM_Period = 250 - 1 ;  //2.5ms , 400kHz
+  TIM_TimeBaseStruct.TIM_Prescaler = 180 - 1; //84 = 1M(1us)
+  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+  TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;
+
+  TIM_TimeBaseInit(TIM9, &TIM_TimeBaseStruct);
+  TIM_ITConfig(TIM9, TIM_IT_Update, ENABLE);
+  TIM_Cmd(TIM9, ENABLE);
+}
+
+
 void LED3_Toggle(void){
 
 
@@ -60,14 +89,26 @@ int main(void)
     RCC_Configuration();
     GPIO_Configuration();
     LED_Initialization();
-    
+    Timer_Initialization();
     while(1)
     {
-        LED3_Toggle();
+        //LED3_Toggle();
         Delay_1us(10000);
 
     }
 
     while(1); // Don't want to exit
 }
+
+
+
+void TIM1_BRK_TIM9_IRQHandler()
+{
+        if (TIM_GetITStatus(TIM9, TIM_IT_Update) != RESET){
+           LED3_Toggle();
+
+        TIM_ClearITPendingBit(TIM9, TIM_IT_Update);
+        }
+}
+
 
