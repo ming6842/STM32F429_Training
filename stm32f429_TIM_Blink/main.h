@@ -7,6 +7,13 @@
 
 #include "stm32f4xx_tim.h"
 
+void RCC_Configuration(void);
+void GPIO_Configuration(void);
+void LED_Initialization(void);
+void LED3_Toggle(void);
+void Timer_Initialization(void);
+void TIM5_IRQHandler(void);
+
 static inline void Delay_1us(uint32_t);
 static inline void Delay_1us(uint32_t nCnt_1us)
 {
