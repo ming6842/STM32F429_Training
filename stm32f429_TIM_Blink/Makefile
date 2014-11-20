@@ -14,6 +14,7 @@ LD = $(CROSS_COMPILE)ld
 OBJCOPY = $(CROSS_COMPILE)objcopy
 OBJDUMP = $(CROSS_COMPILE)objdump
 SIZE = $(CROSS_COMPILE)size
+GDB=arm-none-eabi-gdb
 
 # Cortex-M4 implements the ARMv7E-M architecture
 CPU = cortex-m4
@@ -105,6 +106,10 @@ clean:
 flash:
 	st-flash write $(BIN_IMAGE) 0x8000000
 
+
+#Make gdbtui
+gdbtui:
+	$(GDB) -tui -x ../st_util_init.gdb
 
 flash_openocd:
 	openocd -f interface/stlink-v2.cfg \

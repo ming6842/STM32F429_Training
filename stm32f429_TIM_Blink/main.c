@@ -51,11 +51,11 @@ void LED_Initialization(void){
 void Timer_Initialization(void)
 {
 
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM9, ENABLE);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
   NVIC_InitTypeDef NVIC_InitStructure;
 
   /* Enable the TIM2 global Interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel =  TIM1_BRK_TIM9_IRQn ;
+  NVIC_InitStructure.NVIC_IRQChannel =  TIM5_IRQn ;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
@@ -63,16 +63,16 @@ void Timer_Initialization(void)
   NVIC_Init(&NVIC_InitStructure);
 
   /* -- Timer Configuration --------------------------------------------------- */
-  TIM_DeInit(TIM9);
+  TIM_DeInit(TIM5);
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
-  TIM_TimeBaseStruct.TIM_Period = 250 - 1 ;  //2.5ms , 400kHz
-  TIM_TimeBaseStruct.TIM_Prescaler = 180 - 1; //84 = 1M(1us)
+  TIM_TimeBaseStruct.TIM_Period = 25000 - 1 ;  //250ms 
+  TIM_TimeBaseStruct.TIM_Prescaler = 1800 - 1; //84 = 1M(1us)
   TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
   TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;
 
-  TIM_TimeBaseInit(TIM9, &TIM_TimeBaseStruct);
-  TIM_ITConfig(TIM9, TIM_IT_Update, ENABLE);
-  TIM_Cmd(TIM9, ENABLE);
+  TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStruct);
+  TIM_ITConfig(TIM5, TIM_IT_Update, ENABLE);
+  TIM_Cmd(TIM5, ENABLE);
 }
 
 
@@ -102,12 +102,12 @@ int main(void)
 
 
 
-void TIM1_BRK_TIM9_IRQHandler()
+void TIM5_IRQHandler()
 {
-        if (TIM_GetITStatus(TIM9, TIM_IT_Update) != RESET){
+        if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET){
            LED3_Toggle();
 
-        TIM_ClearITPendingBit(TIM9, TIM_IT_Update);
+        TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
         }
 }
 
