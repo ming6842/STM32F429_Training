@@ -32,48 +32,6 @@ void GPIO_Configuration(void)
  
 /**************************************************************************************/
 
-void ADC_Initialization(void)
-{
-  ADC_InitTypeDef       ADC_InitStructure;
-  ADC_CommonInitTypeDef ADC_CommonInitStructure;
-  GPIO_InitTypeDef      GPIO_InitStructure;
-
-  /* Enable ADC3, DMA2 and GPIO clocks ****************************************/
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
-
-  /* Configure ADC3 Channel7 pin as analog input ******************************/
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
-  GPIO_Init(GPIOF, &GPIO_InitStructure);
-
-  /* ADC Common Init **********************************************************/
-  ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
-  ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div2;
-  ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
-  ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
-  ADC_CommonInit(&ADC_CommonInitStructure);
-
-  /* ADC3 Init ****************************************************************/
-  ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
-  ADC_InitStructure.ADC_ScanConvMode = DISABLE;
-  ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
-  ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
-  ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
-  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfConversion = 1;
-  ADC_Init(ADC3, &ADC_InitStructure);
-
-  /* ADC3 regular channel7 configuration *************************************/
-  ADC_RegularChannelConfig(ADC3, ADC_Channel_7, 1, ADC_SampleTime_3Cycles);
-
-  /* Enable ADC3 */
-  ADC_Cmd(ADC3, ENABLE);
-}
-
-/**************************************************************************************/
- 
 void LED_Initialization(void){
 
   GPIO_InitTypeDef  GPIO_InitStructure;
@@ -128,6 +86,42 @@ void USART1_puts(char* s)
         s++;
     }
 }
+/**************************************************************************************/
+
+void EXTILineA0_Config(void)
+{
+  EXTI_InitTypeDef   EXTI_InitStructure;
+  GPIO_InitTypeDef   GPIO_InitStructure;
+  NVIC_InitTypeDef   NVIC_InitStructure;
+
+  /* Enable GPIOA clock */
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+  /* Enable SYSCFG clock */
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+  
+  /* Configure PA0 pin as input floating */
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  /* Connect EXTI Line0 to PA0 pin */
+  SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource0);
+
+  /* Configure EXTI Line0 */
+  EXTI_InitStructure.EXTI_Line = EXTI_Line0;
+  EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;
+  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Rising;  
+  EXTI_InitStructure.EXTI_LineCmd = ENABLE;
+  EXTI_Init(&EXTI_InitStructure);
+
+  /* Enable and set EXTI Line0 Interrupt to the lowest priority */
+  NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0F;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0F;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructure);
+}
 
 /**************************************************************************************/
 
@@ -138,22 +132,20 @@ int main(void)
     GPIO_Configuration();
     USART1_Configuration();
     LED_Initialization();
-    ADC_Initialization();
 
-    uint16_t adc_data=0;
     int i=0;
     USART1_puts("Hello World!\r\n");
     USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
     
-    ADC_SoftwareStartConv(ADC3);
+    EXTILineA0_Config();
+    /* Generate software interrupt: simulate a falling edge applied on EXTI0 line */
+    EXTI_GenerateSWInterrupt(EXTI_Line0);
 
     while(1)
     {
-        LED3_Toggle();
+        //LED3_Toggle();
 
-        adc_data = ADC_GetConversionValue(ADC3);
-
-        sprintf((char *)buff_transmit, "%d\r\n",(adc_data));
+        sprintf((char *)buff_transmit, "haha\r\n");
           USART1_puts((char *)buff_transmit);
 
           for (i=0;i<50;i++){
@@ -167,3 +159,15 @@ int main(void)
     while(1); // Don't want to exit
 }
 
+
+void EXTI0_IRQHandler(void)
+{
+  if(EXTI_GetITStatus(EXTI_Line0) != RESET)
+  {
+    /* Toggle LED3 */
+    LED3_Toggle();
+    
+    /* Clear the EXTI line 0 pending bit */
+    EXTI_ClearITPendingBit(EXTI_Line0);
+  }
+}

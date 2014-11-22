@@ -8,11 +8,13 @@
 
 void RCC_Configuration(void);
 void GPIO_Configuration(void);
-void ADC_Initialization(void);
 void LED_Initialization(void);
 void LED3_Toggle(void);
 void USART1_Configuration(void);
 void USART1_puts(char* s);
+void EXTILineA0_Config(void);
+void EXTI0_IRQHandler(void);
+
 static inline void Delay_1us(uint32_t);
 static inline void Delay_1us(uint32_t nCnt_1us)
 {
