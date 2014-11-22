@@ -16,17 +16,15 @@ void GPIO_Configuration(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    /*-------------------------- GPIO Configuration ----------------------------*/
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+
+    /*-------------------------- GPIO Configuration for Push Button ----------------------------*/
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_OD ;
     GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-    /* Connect USART pins to AF */
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);   // USART1_TX
-    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);  // USART1_RX
 }
  
 /**************************************************************************************/
@@ -47,13 +45,29 @@ void LED_Initialization(void){
 
 }
 
-void LED3_Toggle(void){
+void LED3_On(void){
 
-
-  GPIOG->ODR ^= GPIO_Pin_13;
+  GPIO_SetBits(GPIOG,GPIO_Pin_13);
 
 }
 
+void LED3_Off(void){
+
+  GPIO_ResetBits(GPIOG,GPIO_Pin_13);
+
+}
+
+void LED3_Toggle(void){
+
+
+  GPIO_ToggleBits(GPIOG,GPIO_Pin_13);
+
+}
+uint8_t PushButton_Read(void){
+
+    return GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0);
+
+}
 /**************************************************************************************/
 int main(void)
 {
@@ -63,8 +77,16 @@ int main(void)
     
     while(1)
     {
+
+      if(PushButton_Read()){
+
         LED3_Toggle();
         Delay_1us(10000);
+      }else{
+
+        LED3_Off();
+      }
+      
 
     }
 
