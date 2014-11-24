@@ -98,7 +98,7 @@ void enable_tim1(void)
   TIM_DeInit(TIM1);
 
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
-  TIM_TimeBaseStruct.TIM_Period = (uint32_t)(25000 - 1);  //2.5ms , 400Hz
+  TIM_TimeBaseStruct.TIM_Period = (uint32_t)(20000 - 1);  //2.5ms , 400Hz
   TIM_TimeBaseStruct.TIM_Prescaler = (uint16_t)(180 - 1); //84 = 1M(1us)
   TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
   TIM_TimeBaseStruct.TIM_RepetitionCounter = 0;
@@ -137,21 +137,22 @@ void LED3_Toggle(void){
 /**************************************************************************************/
 int main(void)
 {
+    uint16_t pwm_out=0;
     RCC_Configuration();
     GPIO_Configuration();
     LED_Initialization();
     //Timer_Initialization();
     enable_tim1();
 
-    //TIM1->CCR2 = 1000;
+    TIM1->CCR2 = 1000;
     while(1)
     {
-        //LED3_Toggle();
-        Delay_1us(10000);
+        TIM1->CCR2 = 1000 + pwm_out/65;
+        pwm_out++;
+        Delay_1us(10);
 
     }
 
-    while(1); // Don't want to exit
 }
 
 
