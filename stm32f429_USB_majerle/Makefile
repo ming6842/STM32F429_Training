@@ -75,6 +75,7 @@ OBJS=	./system_stm32f4xx.o \
         $(ST)/src/stm32f4xx_adc.o \
         $(ST)/src/stm32f4xx_tim.o \
         $(ST)/src/stm32f4xx_exti.o \
+        $(ST)/src/stm32f4xx_syscfg.o \
         $(USB_LIB)/tm_stm32f4_usb_hid_device.o\
         $(USB_LIB)/tm_stm32f4_disco.o\
         $(USB_LIB)/tm_stm32f4_delay.o\

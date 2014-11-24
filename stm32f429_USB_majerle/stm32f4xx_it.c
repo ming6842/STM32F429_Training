@@ -139,10 +139,10 @@ void PendSV_Handler(void)
   *	@with __weak parameter to prevent errors
   * @param  None
   * @retval None
-  */
- void TimingDelay_Decrement(void) {
+//   */
+//  void TimingDelay_Decrement(void) {
 
-}
+// }
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */

@@ -92,12 +92,8 @@ int main(void)
     Timer_Initialization();
     while(1)
     {
-        //LED3_Toggle();
-        Delay_1us(10000);
-
+        // Empty ....
     }
-
-    while(1); // Don't want to exit
 }
 
 

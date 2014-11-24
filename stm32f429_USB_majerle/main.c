@@ -11,6 +11,17 @@
  *  @stdperiph  STM32F4xx Standard peripheral drivers version 1.4.0 or greater required
  */
 /* Include core modules */
+#define KEIL_IDE
+//#define USE_USB_OTG_FS 
+
+#define STM32F429_439xx
+#define USE_STDPERIPH_DRIVER
+#define STM32F4XX
+#define __ASSEMBLY__
+#define KEIL_IDE
+#define TM_DISCO_STM32F429_DISCOVERY
+#define USE_USB_OTG_HS
+
 #include "stm32f4xx.h"
 /* Include my libraries here */
 #include "defines.h"
@@ -27,7 +38,7 @@ int main(void) {
   TM_USB_HIDDEVICE_Mouse_t Mouse;
   
   /* Initialize system */
-  SystemInit();
+  //SystemInit();
   
   /* Initialize leds */
   TM_DISCO_LedInit();
