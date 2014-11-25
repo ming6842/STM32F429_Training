@@ -75,7 +75,7 @@ OBJS=	./system_stm32f4xx.o \
         $(ST)/src/stm32f4xx_tim.o \
         ./main.o \
         $(STARTUP) 
-        
+       
 #Make all
 all:$(BIN_IMAGE)
 
@@ -107,12 +107,12 @@ clean:
 	rm -f $(OBJS)
 
 #Make flash
-flash:
-	st-flash write $(BIN_IMAGE) 0x8000000
+#flash:
+#	st-flash write $(BIN_IMAGE) 0x8000000
 
 #Make openocd
-openocd: flash
-	openocd -f ../debug/openocd.cfg
+#openocd: flash
+#	openocd -f ../debug/openocd.cfg
 
 #Make cgdb
 cgdb:
@@ -120,12 +120,12 @@ cgdb:
 
 #Make gdbtui
 gdbtui:
-	$(GDB) -tui -x ./st_util_init.gdb
+	$(GDB) -tui -x ../st_util_init.gdb
 #Make gdbauto
 gdbauto: cgdb
 
-flash_bmp:
-	$(GDB) firmware.elf -x ./gdb_black_magic.gdb
+#flash_bmp:
+#	$(GDB) firmware.elf -x ./gdb_black_magic.gdb
 cgdb_bmp: 
 	cgdb -d $(GDB) firmware.elf -x ./bmp_gdbinit.gdb
 flash_openocd:
@@ -142,4 +142,4 @@ astyle:
 	astyle -r --exclude=lib  *.c *.h
 #============================================================================#
 
-.PHONY:all clean flash openocd gdbauto gdbtui cgdb astyle
+.PHONY:all clean flash_openocd openocd gdbauto gdbtui cgdb astyle

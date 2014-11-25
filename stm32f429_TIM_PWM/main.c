@@ -1,6 +1,14 @@
 #include "main.h"
 
 
+static inline void Delay_1us(uint32_t nCnt_1us)
+{
+  volatile uint32_t nCnt;
+
+  for (; nCnt_1us != 0; nCnt_1us--)
+    for (nCnt = 13; nCnt != 0; nCnt--);
+}
+
 void RCC_Configuration(void)
 {
       /* --------------------------- System Clocks Configuration -----------------*/
@@ -48,35 +56,7 @@ void LED_Initialization(void){
 }
 
 
-void Timer_Initialization(void)
-{
-
-  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
-  NVIC_InitTypeDef NVIC_InitStructure;
-
-  /* Enable the TIM2 global Interrupt */
-  NVIC_InitStructure.NVIC_IRQChannel =  TIM5_IRQn ;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-
-  NVIC_Init(&NVIC_InitStructure);
-
-  /* -- Timer Configuration --------------------------------------------------- */
-  TIM_DeInit(TIM5);
-  TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
-  TIM_TimeBaseStruct.TIM_Period = 25000 - 1 ;  //250ms 
-  TIM_TimeBaseStruct.TIM_Prescaler = 1800 - 1; //84 = 1M(1us)
-  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
-  TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;
-
-  TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStruct);
-  TIM_ITConfig(TIM5, TIM_IT_Update, ENABLE);
-  TIM_Cmd(TIM5, ENABLE);
-}
-
-
-void enable_tim1(void)
+void PWM_Initialization(void)
 {
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
@@ -141,8 +121,7 @@ int main(void)
     RCC_Configuration();
     GPIO_Configuration();
     LED_Initialization();
-    //Timer_Initialization();
-    enable_tim1();
+    PWM_Initialization();
 
     TIM1->CCR2 = 1000;
     while(1)
@@ -154,16 +133,3 @@ int main(void)
     }
 
 }
-
-
-
-void TIM5_IRQHandler()
-{
-        if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET){
-           LED3_Toggle();
-
-        TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
-        }
-}
-
-

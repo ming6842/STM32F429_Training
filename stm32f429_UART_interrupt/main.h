@@ -5,6 +5,9 @@
 
  #include "stm32f4xx.h"
 
+uint8_t uart1_data;
+
+
 void RCC_Configuration(void);
 void GPIO_Configuration(void);
 void LED_Initialization(void);

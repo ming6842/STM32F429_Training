@@ -76,6 +76,21 @@ void USART1_Configuration(void)
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
     USART_Init(USART1, &USART_InitStructure);
     USART_Cmd(USART1, ENABLE);
+
+    USART_ClearFlag(USART1, USART_FLAG_TC);
+
+    USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
+    USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+
+    /* NVIC Initialization */
+    NVIC_InitTypeDef NVIC_InitStruct = {
+      .NVIC_IRQChannel = USART1_IRQn,
+      .NVIC_IRQChannelPreemptionPriority = 0,
+      .NVIC_IRQChannelSubPriority = 0,
+      .NVIC_IRQChannelCmd = ENABLE
+    };
+    NVIC_Init(&NVIC_InitStruct);
+
 }
 
 void USART1_puts(char* s)
@@ -100,16 +115,22 @@ int main(void)
     {
         LED3_Toggle();
 
-        if(USART_GetFlagStatus(USART1, USART_FLAG_RXNE) != RESET){
+        Delay_1us(10000);
 
-        char t = USART_ReceiveData(USART1);
-        while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
-        USART_SendData(USART1, t);
-
-        }
 
     }
 
-    while(1); // Don't want to exit
 }
 
+
+void USART1_IRQHandler(void)
+{
+  
+  if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
+    uart1_data = USART_ReceiveData(USART1);
+
+    USART_SendData(USART1, uart1_data);
+
+  }
+
+}

@@ -2,6 +2,14 @@
 #include "main.h"
 
 
+static inline void Delay_1us(uint32_t nCnt_1us)
+{
+  volatile uint32_t nCnt;
+
+  for (; nCnt_1us != 0; nCnt_1us--)
+    for (nCnt = 13; nCnt != 0; nCnt--);
+}
+
 void RCC_Configuration(void)
 {
       /* --------------------------- System Clocks Configuration -----------------*/
