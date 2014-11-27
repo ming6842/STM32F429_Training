@@ -12,16 +12,20 @@ GDB=arm-none-eabi-gdb
 LD=arm-none-eabi-gcc
 CMSIS=../Libraries/CMSIS
 ST=../Libraries/STM32F4xx_StdPeriph_Driver
-
+STM32F429_LIB = ../STM32F429I-Discovery
+COMMON = ../Common
 #============================================================================#
 
 CFLAGS_INCLUDE=-I. \
 	-I$(CMSIS)/Include\
-	-I$(CMSIS)/Device/ST/STM32F4xx/Include \
-	-I$(ST)/inc 
+	-I$(CMSIS)/Device/ST/STM32F4xx/Include\
+	-I$(ST)/inc  \
+	-I$(STM32F429_LIB) \
+	-I$(COMMON)
 
 CFLAGS_DEFINE= \
         -D USE_STDPERIPH_DRIVER \
+        -D USE_STM32F429I_DISCO \
         -D STM32F429_439xx
         -D __FPU_PRESENT=1 \
         -D ARM_MATH_CM4 \
@@ -65,12 +69,17 @@ STARTUP=./startup_stm32f429_439xx.o
 OBJS=	./system_stm32f4xx.o \
 	    $(ST)/src/misc.o \
         $(ST)/src/stm32f4xx_rcc.o \
-        $(ST)/src/stm32f4xx_dma.o \
+        $(ST)/src/stm32f4xx_dma2d.o \
         $(ST)/src/stm32f4xx_flash.o \
         $(ST)/src/stm32f4xx_gpio.o \
-        $(ST)/src/stm32f4xx_usart.o \
-        $(ST)/src/stm32f4xx_adc.o \
-        $(ST)/src/stm32f4xx_tim.o \
+        $(ST)/src/stm32f4xx_ltdc.o \
+        $(ST)/src/stm32f4xx_sai.o \
+        $(ST)/src/stm32f4xx_fmc.o \
+        $(ST)/src/stm32f4xx_spi.o \
+        ../Common/fonts.o \
+        $(STM32F429_LIB)/stm32f429i_discovery_lcd.o \
+        $(STM32F429_LIB)/stm32f429i_discovery_sdram.o \
+        ../Common/lcd_log.o \
         ./main.o \
         $(STARTUP) 
         
