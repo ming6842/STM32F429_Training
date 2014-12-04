@@ -80,7 +80,7 @@ void PWM_Initialization(void)
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
   TIM_TimeBaseStruct.TIM_Period = (uint32_t)(20000 - 1);  //2.5ms , 400Hz
   TIM_TimeBaseStruct.TIM_Prescaler = (uint16_t)(180 - 1); //84 = 1M(1us)
-  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;    // No division, so 180MHz
   TIM_TimeBaseStruct.TIM_RepetitionCounter = 0;           // Not used
   TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;
 
