@@ -62,7 +62,7 @@ void Timer_Initialization(void)
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE);
   NVIC_InitTypeDef NVIC_InitStructure;
 
-  /* Enable the TIM2 global Interrupt */
+  /* Enable the TIM5 global Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel =  TIM5_IRQn ;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
@@ -73,9 +73,9 @@ void Timer_Initialization(void)
   /* -- Timer Configuration --------------------------------------------------- */
   TIM_DeInit(TIM5);
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
-  TIM_TimeBaseStruct.TIM_Period = 25000 - 1 ;  //250ms 
-  TIM_TimeBaseStruct.TIM_Prescaler = 1800 - 1; //84 = 1M(1us)
-  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
+  TIM_TimeBaseStruct.TIM_Period = 25000 - 1 ;  //250ms  --> 4Hz
+  TIM_TimeBaseStruct.TIM_Prescaler = 1800 - 1; // Prescaled by 1800 -> = 0.1M(10us)
+  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1; // Div by one -> 180 MHz
   TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;
 
   TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStruct);
