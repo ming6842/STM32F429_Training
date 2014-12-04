@@ -11,6 +11,7 @@ void RCC_Configuration(void);
 void GPIO_Configuration(void);
 void LED_Initialization(void);
 void LED3_Toggle(void);
+void LED4_Toggle(void);
 void Timer_Initialization(void);
 void TIM5_IRQHandler(void);
 

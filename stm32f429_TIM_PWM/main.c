@@ -81,29 +81,27 @@ void PWM_Initialization(void)
   TIM_TimeBaseStruct.TIM_Period = (uint32_t)(20000 - 1);  //2.5ms , 400Hz
   TIM_TimeBaseStruct.TIM_Prescaler = (uint16_t)(180 - 1); //84 = 1M(1us)
   TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1;
-  TIM_TimeBaseStruct.TIM_RepetitionCounter = 0;
+  TIM_TimeBaseStruct.TIM_RepetitionCounter = 0;           // Not used
   TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;
 
   TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStruct);
 
 
-  /*TIM2 TIM3 TIM4 TIM8 */
   TIM_OCInitTypeDef TIM_OCInitStruct;
-  TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;
+  TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;               //PWM Edge mode
   TIM_OCInitStruct.TIM_OutputState = TIM_OutputState_Enable;
   TIM_OCInitStruct.TIM_Pulse = 1000-1;
-  TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_High;
-  TIM_OCInitStruct.TIM_OCNPolarity = TIM_OCNPolarity_High;
-  TIM_OCInitStruct.TIM_OCIdleState = TIM_OCIdleState_Reset;
-  TIM_OCInitStruct.TIM_OCNIdleState = TIM_OCIdleState_Reset;
+  TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_High;        // Output polarity High
+  TIM_OCInitStruct.TIM_OCNPolarity = TIM_OCNPolarity_High;      // Complementary output polarity :Not used
+  TIM_OCInitStruct.TIM_OCIdleState = TIM_OCIdleState_Reset;     // No output polarity : reset (low)
+  TIM_OCInitStruct.TIM_OCNIdleState = TIM_OCIdleState_Reset;    // Complementary idle output : reset (not used)
 
   TIM_OC2Init(TIM1, &TIM_OCInitStruct);
-
   TIM_OC2PreloadConfig(TIM1, TIM_OCPreload_Enable);
 
-  TIM_ARRPreloadConfig(TIM1, ENABLE);
-  TIM_Cmd(TIM1, ENABLE);
-  TIM_CtrlPWMOutputs(TIM1, ENABLE);
+  TIM_ARRPreloadConfig(TIM1, ENABLE);       //Put ARR value into register
+  TIM_Cmd(TIM1, ENABLE);                    // Enable Timer 1
+  TIM_CtrlPWMOutputs(TIM1, ENABLE);         // Enable output (To GPIO)
 }
 
 
@@ -127,6 +125,7 @@ int main(void)
     while(1)
     {
         TIM1->CCR2 = 1000 + pwm_out/65;
+        //TIM_SetCompare2(TIM_TypeDef* TIMx, uint32_t Compare2);
         pwm_out++;
         Delay_1us(10);
 

@@ -74,8 +74,8 @@ void Timer_Initialization(void)
   TIM_DeInit(TIM5);
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
   TIM_TimeBaseStruct.TIM_Period = 25000 - 1 ;  //250ms  --> 4Hz
-  TIM_TimeBaseStruct.TIM_Prescaler = 1800 - 1; // Prescaled by 1800 -> = 0.1M(10us)
-  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1; // Div by one -> 180 MHz
+  TIM_TimeBaseStruct.TIM_Prescaler = 900 - 1; // Prescaled by 1800 -> = 0.1M(10us)
+  TIM_TimeBaseStruct.TIM_ClockDivision = TIM_CKD_DIV1; // Div by one -> 90 MHz (Now RCC_DCKCFGR_TIMPRE is configured to divide clock by two)
   TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;
 
   TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStruct);
@@ -91,6 +91,13 @@ void LED3_Toggle(void){
 
 }
 
+void LED4_Toggle(void){
+
+
+  GPIOG->ODR ^= GPIO_Pin_14;
+
+}
+
 /**************************************************************************************/
 int main(void)
 {
@@ -100,16 +107,27 @@ int main(void)
     Timer_Initialization();
     while(1)
     {
-        // Empty ....
+        LED4_Toggle();
+        Delay_1us(250000);
     }
 }
 
 
 
+uint16_t autoReloader=25000;
 void TIM5_IRQHandler()
 {
         if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET){
            LED3_Toggle();
+
+
+            //TIM_SetAutoreload(TIM5, autoReloader);
+            //autoReloader= autoReloader - 500;
+
+            if(autoReloader<1000){
+
+              autoReloader = 25000;
+            }
 
         TIM_ClearITPendingBit(TIM5, TIM_IT_Update);
         }
