@@ -128,6 +128,7 @@ cgdb_bmp:
 	cgdb -d $(GDB) firmware.elf -x ./bmp_gdbinit.gdb
 flash_openocd:
 	openocd -f interface/stlink-v2.cfg \
+	-c "transport select hla_swd" \
 	-f target/stm32f4x_stlink.cfg \
 	-c "init" \
 	-c "reset init" \

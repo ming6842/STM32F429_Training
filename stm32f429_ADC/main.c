@@ -51,30 +51,30 @@ void ADC_Initialization(void)
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC3, ENABLE);
 
   /* Configure ADC3 Channel7 pin as analog input ******************************/
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8|GPIO_Pin_9;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;
   GPIO_Init(GPIOF, &GPIO_InitStructure);
 
   /* ADC Common Init **********************************************************/
-  ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
-  ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div2;
-  ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
-  ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
+  ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;                     // No external trigger is connected
+  ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div2;                  // ADC clock prescaler
+  ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;      // No DMA (polling mode)
+  ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;  
   ADC_CommonInit(&ADC_CommonInitStructure);
 
   /* ADC3 Init ****************************************************************/
-  ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
-  ADC_InitStructure.ADC_ScanConvMode = DISABLE;
-  ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
+  ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;                       // Resolution 12 bits
+  ADC_InitStructure.ADC_ScanConvMode = DISABLE;                                // Use single channel 
+  ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;                           // Continue conversion
   ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
   ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
-  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfConversion = 1;
+  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;                       // Data bits shifted to right hand side (Low)
+  ADC_InitStructure.ADC_NbrOfConversion = 1;                                   // Convert only once
   ADC_Init(ADC3, &ADC_InitStructure);
 
   /* ADC3 regular channel7 configuration *************************************/
-  ADC_RegularChannelConfig(ADC3, ADC_Channel_7, 1, ADC_SampleTime_3Cycles);
+  ADC_RegularChannelConfig(ADC3, ADC_Channel_6, 1, ADC_SampleTime_3Cycles);
 
   /* Enable ADC3 */
   ADC_Cmd(ADC3, ENABLE);
@@ -142,26 +142,37 @@ void USART1_puts(char* s)
 uint8_t buff_transmit[100];
 int main(void)
 {
+
     RCC_Configuration();
     GPIO_Configuration();
     USART1_Configuration();
     LED_Initialization();
     ADC_Initialization();
 
-    uint16_t adc_data=0;
+    uint16_t adc_data1=0,adc_data2=0;
     int i=0;
-    USART1_puts("Hello World!\r\n");
-    USART1_puts("Just for STM32F429I Discovery verify USART1 with USB TTL Cable\r\n");
-    
+    float voltage1 =0.0f,voltage2 =0.0f;
+
     ADC_SoftwareStartConv(ADC3);
 
     while(1)
     {
         LED3_Toggle();
 
-        adc_data = ADC_GetConversionValue(ADC3);
+        //ADC_RegularChannelConfig(ADC3, ADC_Channel_6, 1, ADC_SampleTime_3Cycles);
+        //ADC_SoftwareStartConv(ADC3);
+        Delay_1us(50);
+        adc_data1 = ADC_GetConversionValue(ADC3);
 
-        sprintf((char *)buff_transmit, "%d\r\n",(adc_data));
+        // ADC_RegularChannelConfig(ADC3, ADC_Channel_7, 1, ADC_SampleTime_3Cycles);
+        // ADC_SoftwareStartConv(ADC3);
+        // Delay_1us(10);
+        // adc_data2 = ADC_GetConversionValue(ADC3);
+
+        voltage1 = (float)adc_data1*3.3f/4095.0f;
+        voltage2 = (float)adc_data2*3.3f/4095.0f;
+
+        sprintf((char *)buff_transmit, "ADC Data = %d, ADC Data2 = %d, Voltage = %fV, Voltage2 = %fV\r\n",adc_data1,adc_data2, voltage1,voltage2);
           USART1_puts((char *)buff_transmit);
 
           for (i=0;i<50;i++){
@@ -169,9 +180,9 @@ int main(void)
             buff_transmit[i]=0;
           }
           
-        Delay_1us(100000);
+        Delay_1us(1000);
     }
 
-    while(1); // Don't want to exit
+
 }
 
