@@ -24,6 +24,9 @@ int main(void)
 
     terminalBufferInitilization();
 
+/******************** GARBAGE PART STARTED HERE **************/
+/****************** USED FOR DEMONSTRATION ONLY **************/
+/*********************** DELETE BEFORE USE *******************/
 
     terminalWrite("LCD with terminal  \n");     Delay_1us(100000);
     terminalWrite("Initializing .");     Delay_1us(1000000);
@@ -104,17 +107,18 @@ while(spinning_count--){
     terminalWrite("\rClearing screen in ... 3");     Delay_1us(500000);
     terminalWrite("\rClearing screen in ... 2");     Delay_1us(500000);
     terminalWrite("\rClearing screen in ... 1");     Delay_1us(500000);
+
+
+/******************** GARBAGE PART END HERE **************/
+
     terminalClearScreen();
-
-
-
-    terminalWrite("Welcome to our termainal .");     Delay_1us(100000);
+    terminalWrite("Welcome to our termainal .\n");     Delay_1us(100000);
   while (1){
 
 
-   //sprintf(lcd_text_main,"This is line : %ld \n", runner++); terminalWrite(lcd_text_main); 
-   
-         //Delay_1us(500000);
+     sprintf(lcd_text_main,"\nThis is line : %ld ", runner++); 
+     terminalWrite(lcd_text_main); 
+     Delay_1us(1000000);
   }
   
 }

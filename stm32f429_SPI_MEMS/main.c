@@ -8,12 +8,63 @@ static inline void Delay_1us(uint32_t nCnt_1us)
     for (nCnt = 13; nCnt != 0; nCnt--);
 }
 
+void SPI_Initialization(void){
+
+  GPIO_InitTypeDef GPIO_InitStructure;
+  SPI_InitTypeDef  SPI_InitStructure;
+
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI4, ENABLE);
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE,ENABLE);
+
+
+  /* SPI configuration -------------------------------------------------------*/
+  SPI_I2S_DeInit(SPI4);
+  SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
+  SPI_InitStructure.SPI_Mode = SPI_Mode_Master;
+  SPI_InitStructure.SPI_DataSize = SPI_DataSize_8b;
+  SPI_InitStructure.SPI_CPOL = SPI_CPOL_Low;
+  SPI_InitStructure.SPI_CPHA = SPI_CPHA_1Edge;
+  SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;
+  /* SPI baudrate is set to 5.6 MHz (PCLK2/SPI_BaudRatePrescaler = 90/16 = 5.625 MHz)  */
+
+  SPI_InitStructure.SPI_BaudRatePrescaler = SPI_BaudRatePrescaler_256;
+  SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;
+  SPI_InitStructure.SPI_CRCPolynomial = 7;
+  SPI_Init(SPI4, &SPI_InitStructure);
+
+  /* Enable SPI4  */
+  SPI_Cmd(SPI4, ENABLE);
+  
+  /* Configure GPIO PIN for Chip select */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
+  GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_NOPULL;
+  GPIO_Init(GPIOE, &GPIO_InitStructure);
+
+  
+  GPIO_PinAFConfig(GPIOE, GPIO_PinSource2, GPIO_AF_SPI4);
+  GPIO_PinAFConfig(GPIOE, GPIO_PinSource5, GPIO_AF_SPI4);
+  GPIO_PinAFConfig(GPIOE, GPIO_PinSource6, GPIO_AF_SPI4);
+
+  /* Configure GPIO PIN for SPI4 */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 |GPIO_Pin_5 |GPIO_Pin_6;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+  GPIO_Init(GPIOE, &GPIO_InitStructure);
+
+
+}
 
 int main(void)
 {
 
   char lcd_text_main[100];
   uint32_t runner=0;
+  uint8_t receivedData=0;
+
+    SPI_Initialization();
 
     lcd_init();
     lcd_drawBackground(20,60,250);
@@ -25,97 +76,28 @@ int main(void)
     terminalBufferInitilization();
 
 
-    terminalWrite("LCD with terminal  \n");     Delay_1us(100000);
-    terminalWrite("Initializing .");     Delay_1us(1000000);
-    terminalWrite(".");     Delay_1us(1000000);
-    terminalWrite(".");     Delay_1us(1000000);
-    terminalWrite(".");     Delay_1us(10000);
-    terminalWrite(".");     Delay_1us(10000);
-    terminalWrite(".");     Delay_1us(10000);
-    terminalWrite(".\n");     Delay_1us(1000000);
+    while(1){
+      SPI_I2S_SendData(SPI4,0x80);
+      while (SPI_I2S_GetFlagStatus(SPI4, SPI_I2S_FLAG_TXE) == RESET);
 
-    terminalWrite("Unpack lib-shit32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-garbage32 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(10000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-something32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-AOE2 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-counterstrike32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-lolv21 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9000 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9001 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9002 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9003 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9004 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9005 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    
-    terminalWrite("Downloading garbage ... -");     Delay_1us(100000);
-    {
-      uint32_t spinning_count = 5;
-while(spinning_count--){
-    terminalWrite("\rDownloading garbage ... /");     Delay_1us(70000);
-    terminalWrite("\rDownloading garbage ... -");     Delay_1us(70000);
-    terminalWrite("\rDownloading garbage ... \\");    Delay_1us(70000);
-    terminalWrite("\rDownloading garbage ... |");     Delay_1us(70000);
-    }
+      while (SPI_I2S_GetFlagStatus(SPI4, SPI_FLAG_RXNE) == RESET);
+      receivedData=SPI_I2S_ReceiveData(SPI4);
 
-  }
-
-    terminalWrite("\rDownloading garbage ...done"); 
-    Delay_1us(100000);
-
-
-    terminalWrite("Unpack gb-shit32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-garbage32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-something .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-AOE2 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-counterstrike .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-lolv21 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-error9000 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-error9001 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-error9002 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-error9003 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-error9004 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack gb-error9005 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    
-
-
-    terminalWrite("\nAccessing NCKU-WLAN ... "); 
-
-
-    {
-      uint32_t spinning_count = 20;
-while(spinning_count--){
-    terminalWrite("\rAccessing NCKU-WLAN ... /");     Delay_1us(70000);
-    terminalWrite("\rAccessing NCKU-WLAN ... -");     Delay_1us(70000);
-    terminalWrite("\rAccessing NCKU-WLAN ... \\");    Delay_1us(70000);
-    terminalWrite("\rAccessing NCKU-WLAN ... |");     Delay_1us(70000);
-    }
-
-  }
-
-    terminalWrite("\nNCKU Internet is too slow ... \n");     Delay_1us(100000);
-    terminalWrite("\nSystem is crashing .");     Delay_1us(100000);
-    terminalWrite(".");     Delay_1us(100000);
-    terminalWrite(".");    Delay_1us(100000);
-    terminalWrite(".\n");     Delay_1us(100000);
-
-
-    terminalWrite("\rClearing screen in ... 5");     Delay_1us(500000);
-    terminalWrite("\rClearing screen in ... 4");     Delay_1us(500000);
-    terminalWrite("\rClearing screen in ... 3");     Delay_1us(500000);
-    terminalWrite("\rClearing screen in ... 2");     Delay_1us(500000);
-    terminalWrite("\rClearing screen in ... 1");     Delay_1us(500000);
-    terminalClearScreen();
-
-
-
-    terminalWrite("Welcome to our termainal .");     Delay_1us(100000);
-  while (1){
-
-
-   //sprintf(lcd_text_main,"This is line : %ld \n", runner++); terminalWrite(lcd_text_main); 
+      sprintf(lcd_text_main,"receivedData : %x    \n", receivedData); terminalWrite(lcd_text_main); 
    
-         //Delay_1us(500000);
-  }
+
+
+      SPI_I2S_SendData(SPI4,0x05);
+      while (SPI_I2S_GetFlagStatus(SPI4, SPI_I2S_FLAG_TXE) == RESET);
+
+      while (SPI_I2S_GetFlagStatus(SPI4, SPI_FLAG_RXNE) == RESET);
+      receivedData=SPI_I2S_ReceiveData(SPI4);
+      
+
+      sprintf(lcd_text_main,"receivedData : %x    \n", receivedData); terminalWrite(lcd_text_main); 
+   
+      Delay_1us(170000);
+    }
   
 }
 
