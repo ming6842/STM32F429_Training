@@ -10,7 +10,7 @@
 
 #define TERMINAL_COLUMN_SIZE  27
 #define TERMINAL_LINE_SIZE 25
-#define TERMINAL_LINE_OFFSET 1
+#define TERMINAL_LINE_OFFSET 1 //still can't use
 #define TERMINAL_COLUMN_OFFSET 2
 
 void terminalBufferInitilization(void);

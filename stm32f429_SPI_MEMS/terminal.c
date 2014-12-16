@@ -35,15 +35,19 @@ void terminalShiftOneLine(void){
   uint16_t i=0;
 
 
-    if(lineCount  > TERMINAL_LINE_SIZE-2)  {
+    if(lineCount  > TERMINAL_LINE_SIZE-TERMINAL_LINE_OFFSET -1)  {
 
-      terminalRefresh();
       lineOffset++;
     }
 
     lineCount++;
     currentColumn = 0;
     // Clean current line
+
+
+    if(lineCount-1  > TERMINAL_LINE_SIZE-TERMINAL_LINE_OFFSET -1)  {
+      terminalRefresh();
+    }
 
     for(i=TERMINAL_COLUMN_OFFSET;i<TERMINAL_COLUMN_SIZE+1;i++)
     lcd_text_buff[lineCount%((uint32_t)TERMINAL_LINE_SIZE+0)][i] =' ';

@@ -23,36 +23,38 @@ int main(void)
     LCD_SetFont(&Font8x12); 
 
     terminalBufferInitilization();
+
+
     terminalWrite("LCD with terminal  \n");     Delay_1us(100000);
     terminalWrite("Initializing .");     Delay_1us(1000000);
     terminalWrite(".");     Delay_1us(1000000);
     terminalWrite(".");     Delay_1us(1000000);
-    terminalWrite(".");     Delay_1us(100000);
-    terminalWrite(".");     Delay_1us(100000);
-    terminalWrite(".");     Delay_1us(100000);
+    terminalWrite(".");     Delay_1us(10000);
+    terminalWrite(".");     Delay_1us(10000);
+    terminalWrite(".");     Delay_1us(10000);
     terminalWrite(".\n");     Delay_1us(1000000);
 
     terminalWrite("Unpack lib-shit32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-garbage32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
+    terminalWrite("Unpack lib-garbage32 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(10000);    terminalWrite(".\n");     Delay_1us(100000);
     terminalWrite("Unpack lib-something32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
     terminalWrite("Unpack lib-AOE2 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
     terminalWrite("Unpack lib-counterstrike32 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
     terminalWrite("Unpack lib-lolv21 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9000 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9001 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9002 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9003 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9004 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
-    terminalWrite("Unpack lib-error9005 .");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
+    terminalWrite("Unpack lib-error9000 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
+    terminalWrite("Unpack lib-error9001 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
+    terminalWrite("Unpack lib-error9002 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
+    terminalWrite("Unpack lib-error9003 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
+    terminalWrite("Unpack lib-error9004 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
+    terminalWrite("Unpack lib-error9005 .");     Delay_1us(10000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".");     Delay_1us(100000);    terminalWrite(".\n");     Delay_1us(100000);
     
     terminalWrite("Downloading garbage ... -");     Delay_1us(100000);
     {
-      uint32_t spinning_count = 30;
+      uint32_t spinning_count = 5;
 while(spinning_count--){
-    terminalWrite("\rDownloading garbage ... /");     Delay_1us(100000);
-    terminalWrite("\rDownloading garbage ... -");     Delay_1us(100000);
-    terminalWrite("\rDownloading garbage ... \\");    Delay_1us(100000);
-    terminalWrite("\rDownloading garbage ... |");     Delay_1us(100000);
+    terminalWrite("\rDownloading garbage ... /");     Delay_1us(70000);
+    terminalWrite("\rDownloading garbage ... -");     Delay_1us(70000);
+    terminalWrite("\rDownloading garbage ... \\");    Delay_1us(70000);
+    terminalWrite("\rDownloading garbage ... |");     Delay_1us(70000);
     }
 
   }
@@ -80,12 +82,12 @@ while(spinning_count--){
 
 
     {
-      uint32_t spinning_count = 30;
+      uint32_t spinning_count = 20;
 while(spinning_count--){
-    terminalWrite("\rAccessing NCKU-WLAN ... /");     Delay_1us(100000);
-    terminalWrite("\rAccessing NCKU-WLAN ... -");     Delay_1us(100000);
-    terminalWrite("\rAccessing NCKU-WLAN ... \\");    Delay_1us(100000);
-    terminalWrite("\rAccessing NCKU-WLAN ... |");     Delay_1us(100000);
+    terminalWrite("\rAccessing NCKU-WLAN ... /");     Delay_1us(70000);
+    terminalWrite("\rAccessing NCKU-WLAN ... -");     Delay_1us(70000);
+    terminalWrite("\rAccessing NCKU-WLAN ... \\");    Delay_1us(70000);
+    terminalWrite("\rAccessing NCKU-WLAN ... |");     Delay_1us(70000);
     }
 
   }
@@ -106,7 +108,7 @@ while(spinning_count--){
 
 
 
-    terminalWrite("Welcome to our self-written termainal .");     Delay_1us(100000);
+    terminalWrite("Welcome to our termainal .");     Delay_1us(100000);
   while (1){
 
 
