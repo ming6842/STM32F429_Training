@@ -5,6 +5,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
+#include "terminal.h"
 #include <stdio.h>
 #include "lcd.h"
 

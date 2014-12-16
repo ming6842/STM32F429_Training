@@ -55,44 +55,44 @@ void DrawThickCircle(uint32_t x,uint32_t y,uint32_t radius, uint32_t thickness,u
 
 }
 
-void lcd_drawPersimmon(void){
+// void lcd_drawPersimmon(void){
 
 
-#define X_MIDDLE 120
-#define Y_MIDDLE 180
+// #define X_MIDDLE 120
+// #define Y_MIDDLE 180
 
-    LCD_SetTextColor(LCD_COLOR_BLACK);
-    LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75  , X_MIDDLE-75, Y_MIDDLE+75);
-    LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75-1, X_MIDDLE-75, Y_MIDDLE+75-1);
-    LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75+1, X_MIDDLE-75, Y_MIDDLE+75+1);
+//     LCD_SetTextColor(LCD_COLOR_BLACK);
+//     LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75  , X_MIDDLE-75, Y_MIDDLE+75);
+//     LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75-1, X_MIDDLE-75, Y_MIDDLE+75-1);
+//     LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75+1, X_MIDDLE-75, Y_MIDDLE+75+1);
 
-    LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75  , X_MIDDLE+75, Y_MIDDLE+75);
-    LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75-1, X_MIDDLE+75, Y_MIDDLE+75-1);
-    LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75+1, X_MIDDLE+75, Y_MIDDLE+75+1);
-
-
-    LCD_DrawFullRect(X_MIDDLE-60,Y_MIDDLE-5,120,10);
-    LCD_DrawFullRect(X_MIDDLE-5,Y_MIDDLE-60,10,120);
+//     LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75  , X_MIDDLE+75, Y_MIDDLE+75);
+//     LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75-1, X_MIDDLE+75, Y_MIDDLE+75-1);
+//     LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75+1, X_MIDDLE+75, Y_MIDDLE+75+1);
 
 
-    DrawThickCircle(X_MIDDLE,Y_MIDDLE,30,7,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    DrawThickCircle(X_MIDDLE+60,Y_MIDDLE,22,   5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE-60,Y_MIDDLE,22,   5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE   ,Y_MIDDLE+60,22,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE   ,Y_MIDDLE-60,22,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    DrawThickCircle(X_MIDDLE+75,Y_MIDDLE+75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE-75,Y_MIDDLE-75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE+75,Y_MIDDLE-75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE-75,Y_MIDDLE+75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    LCD_SetColors(LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    LCD_DisplayStringLine(LINE(1), (uint8_t*)"     Ce-91     ");
+//     LCD_DrawFullRect(X_MIDDLE-60,Y_MIDDLE-5,120,10);
+//     LCD_DrawFullRect(X_MIDDLE-5,Y_MIDDLE-60,10,120);
 
 
-}
+//     DrawThickCircle(X_MIDDLE,Y_MIDDLE,30,7,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     DrawThickCircle(X_MIDDLE+60,Y_MIDDLE,22,   5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE-60,Y_MIDDLE,22,   5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE   ,Y_MIDDLE+60,22,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE   ,Y_MIDDLE-60,22,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     DrawThickCircle(X_MIDDLE+75,Y_MIDDLE+75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE-75,Y_MIDDLE-75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE+75,Y_MIDDLE-75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE-75,Y_MIDDLE+75,32,5,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     LCD_SetColors(LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     LCD_DisplayStringLine(LINE(1), (uint8_t*)"     Ce-91     ");
+
+
+// }
 
 #define BLEND_THIS(colorToBlend , BackGroundColorToBlend,BlendingAlpha) (uint32_t)(colorToBlend)*(10- (uint32_t)BlendingAlpha)+(uint32_t)BackGroundColorToBlend*(uint32_t)BlendingAlpha
 
@@ -101,7 +101,8 @@ void lcd_drawBGPersimmon(uint8_t BGColor_R,uint8_t BGColor_G,uint8_t BGColor_B){
 uint16_t edgeColor=0,innerColor=0;
 
 uint8_t alphaBlender = 3; //full scale 10
-uint8_t alphaBlenderEdge = 3; //full scale 10
+
+// uint8_t alphaBlenderEdge = 3; //full scale 10
 
 innerColor = ASSEMBLE_RGB(BLEND_THIS(BGColor_R,LCD_COLOR_WHITE,alphaBlender),BLEND_THIS(BGColor_G,LCD_COLOR_WHITE,alphaBlender),BLEND_THIS(BGColor_B,LCD_COLOR_WHITE,alphaBlender));
 edgeColor =  ASSEMBLE_RGB(BLEND_THIS(255/5,LCD_COLOR_BLACK,alphaBlender),BLEND_THIS(255/5,LCD_COLOR_BLACK,alphaBlender),BLEND_THIS(255/5,LCD_COLOR_BLACK,alphaBlender));
@@ -152,44 +153,44 @@ edgeColor =  ASSEMBLE_RGB(BLEND_THIS(255/5,LCD_COLOR_BLACK,alphaBlender),BLEND_T
 
 }
 
-void lcd_drawSmallPersimmon(void){
+// void lcd_drawSmallPersimmon(void){
 
 
-#define X_MIDDLE 120
-#define Y_MIDDLE 180
+// #define X_MIDDLE 120
+// #define Y_MIDDLE 180
 
-    LCD_SetTextColor(LCD_COLOR_BLACK);
-    LCD_DrawUniLine(X_MIDDLE+23, Y_MIDDLE-23  , X_MIDDLE-23, Y_MIDDLE+23);
-    LCD_DrawUniLine(X_MIDDLE+23, Y_MIDDLE-23-1, X_MIDDLE-23, Y_MIDDLE+23-1);
-    LCD_DrawUniLine(X_MIDDLE+23, Y_MIDDLE-23+1, X_MIDDLE-23, Y_MIDDLE+23+1);
+//     LCD_SetTextColor(LCD_COLOR_BLACK);
+//     LCD_DrawUniLine(X_MIDDLE+23, Y_MIDDLE-23  , X_MIDDLE-23, Y_MIDDLE+23);
+//     LCD_DrawUniLine(X_MIDDLE+23, Y_MIDDLE-23-1, X_MIDDLE-23, Y_MIDDLE+23-1);
+//     LCD_DrawUniLine(X_MIDDLE+23, Y_MIDDLE-23+1, X_MIDDLE-23, Y_MIDDLE+23+1);
 
-    LCD_DrawUniLine(X_MIDDLE-23, Y_MIDDLE-23  , X_MIDDLE+23, Y_MIDDLE+23);
-    LCD_DrawUniLine(X_MIDDLE-23, Y_MIDDLE-23-1, X_MIDDLE+23, Y_MIDDLE+23-1);
-    LCD_DrawUniLine(X_MIDDLE-23, Y_MIDDLE-23+1, X_MIDDLE+23, Y_MIDDLE+23+1);
-
-
-    LCD_DrawFullRect(X_MIDDLE-21,Y_MIDDLE-1,42,2);
-    LCD_DrawFullRect(X_MIDDLE-1,Y_MIDDLE-21,2,42);
+//     LCD_DrawUniLine(X_MIDDLE-23, Y_MIDDLE-23  , X_MIDDLE+23, Y_MIDDLE+23);
+//     LCD_DrawUniLine(X_MIDDLE-23, Y_MIDDLE-23-1, X_MIDDLE+23, Y_MIDDLE+23-1);
+//     LCD_DrawUniLine(X_MIDDLE-23, Y_MIDDLE-23+1, X_MIDDLE+23, Y_MIDDLE+23+1);
 
 
-    DrawThickCircle(X_MIDDLE,Y_MIDDLE,11,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    DrawThickCircle(X_MIDDLE+21,Y_MIDDLE   ,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE-21,Y_MIDDLE   ,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE   ,Y_MIDDLE+21,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE   ,Y_MIDDLE-21,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    DrawThickCircle(X_MIDDLE+23,Y_MIDDLE+23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE-23,Y_MIDDLE-23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE+23,Y_MIDDLE-23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-    DrawThickCircle(X_MIDDLE-23,Y_MIDDLE+23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    LCD_SetColors(LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-
-    LCD_DisplayStringLine(LINE(1), (uint8_t*)"     Ce-91     ");
+//     LCD_DrawFullRect(X_MIDDLE-21,Y_MIDDLE-1,42,2);
+//     LCD_DrawFullRect(X_MIDDLE-1,Y_MIDDLE-21,2,42);
 
 
-}
+//     DrawThickCircle(X_MIDDLE,Y_MIDDLE,11,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     DrawThickCircle(X_MIDDLE+21,Y_MIDDLE   ,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE-21,Y_MIDDLE   ,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE   ,Y_MIDDLE+21,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE   ,Y_MIDDLE-21,8,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     DrawThickCircle(X_MIDDLE+23,Y_MIDDLE+23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE-23,Y_MIDDLE-23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE+23,Y_MIDDLE-23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+//     DrawThickCircle(X_MIDDLE-23,Y_MIDDLE+23,12,2,LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     LCD_SetColors(LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
+
+//     LCD_DisplayStringLine(LINE(1), (uint8_t*)"     Ce-91     ");
+
+
+// }
 
 void lcd_drawBackground(uint8_t color_R,uint8_t color_G,uint8_t color_B){
 
