@@ -81,6 +81,7 @@ OBJS=	./system_stm32f4xx.o \
         $(STM32F429_LIB)/stm32f429i_discovery_sdram.o \
         ../Common/lcd_log.o \
         ./main.o \
+        ./terminal.o \
         ./lcd.o \
         $(STARTUP) 
         
