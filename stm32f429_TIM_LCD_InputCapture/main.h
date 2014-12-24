@@ -12,6 +12,8 @@
 
 static inline void Delay_1us(uint32_t nCnt_1us);
 
+void TIM2_IRQHandler(void);
+void TIM2_Initialization(void);
 #endif /* __MAIN_H */
 
 

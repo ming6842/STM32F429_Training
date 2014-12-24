@@ -18,6 +18,7 @@ uint16_t terminalGetLine(uint16_t line);
 void terminalShiftOneLine(void);
 void terminalRefresh(void);
 void terminalWrite(char* s);
+void terminalClearScreen(void);
 
 
 
