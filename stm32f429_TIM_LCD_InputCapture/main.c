@@ -14,7 +14,7 @@ void TIM2_IRQHandler()
 
 
   if (TIM_GetITStatus(TIM2, TIM_IT_CC1) == SET) {
-    /* Clear TIM1 Capture compare interrupt pending bit */
+    /* Clear TIM2 Capture compare interrupt pending bit */
     TIM_ClearITPendingBit(TIM2, TIM_IT_CC1);
 
       /* Get the Input Capture value */
@@ -44,10 +44,10 @@ void TIM2_Initialization(void)
   /* TIM2 clock enable */
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
-  /* GPIOB clock enable */
+  /* GPIOA clock enable */
   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 
-    /* TIM2 PWM3  PA0 */  
+    /* TIM2  PA5 */  
   GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_5;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -55,10 +55,10 @@ void TIM2_Initialization(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-  /* Connect TIM pin to AF2 */
+  /* Connect TIM pin to AF5 */
   GPIO_PinAFConfig(GPIOA, GPIO_PinSource5, GPIO_AF_TIM2);
 
-  /* Enable the TIM4 global Interrupt */
+  /* Enable the TIM2 global Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
@@ -66,23 +66,23 @@ void TIM2_Initialization(void)
   NVIC_Init(&NVIC_InitStructure);
 
   TIM_DeInit(TIM2);
-  TIM_TimeBaseStruct.TIM_Period = 0xFFFF;              // period = 2.5ms, 400kHz
-  TIM_TimeBaseStruct.TIM_Prescaler = 50-1;            //  84 = 1M ( 1us )
+  TIM_TimeBaseStruct.TIM_Period = 0xFFFF;              
+  TIM_TimeBaseStruct.TIM_Prescaler = 50-1;          
   TIM_TimeBaseStruct.TIM_ClockDivision = 0;
   TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;    // Counter Up
   TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStruct);
 
   TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
-  TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
-  TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
-  TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+  TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;       //POLARITY!!!!
+  TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;   
+  TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;             //Prescaler
   TIM_ICInitStructure.TIM_ICFilter = 0x0;
 
   TIM_ICInit(TIM2, &TIM_ICInitStructure);
 
   /* TIM enable counter */
   TIM_Cmd(TIM2, ENABLE);
-  /* Enable the CC2 Interrupt Request */
+  /* Enable the CC1 Interrupt Request */
   TIM_ITConfig(TIM2, TIM_IT_CC1, ENABLE);
   
 }
