@@ -109,7 +109,7 @@ int main(void)
          TxMessage.Data[7] = 0x55;
 
          CAN_Transmit(CAN2, &TxMessage);
-
+          Delay_1us(10000);
 
             /* Received Data */
             if( can2_rx_isr_flag ==1){
@@ -124,7 +124,7 @@ int main(void)
                   LCD_DisplayStringLine(LINE(1), (uint8_t*)lcd_text_main);
 
                   LCD_SetColors(LCD_COLOR_BLACK,LCD_COLOR_WHITE-1);
-                  sprintf(lcd_text_main," DATA[0]: 0x%lX    ",can2RxMessage.Data[0]);
+                  sprintf(lcd_text_main," DATA[0]: 0x%X    ",can2RxMessage.Data[0]);
                   LCD_DisplayStringLine(LINE(2), (uint8_t*)lcd_text_main);
 
                 }while(CAN_MessagePending(CAN2, CAN_FIFO0) > 0);
