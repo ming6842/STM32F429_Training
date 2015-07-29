@@ -74,6 +74,7 @@ OBJS=	./system_stm32f4xx.o \
         $(ST)/src/stm32f4xx_gpio.o \
         $(ST)/src/stm32f4xx_ltdc.o \
         $(ST)/src/stm32f4xx_sai.o \
+        $(ST)/src/stm32f4xx_adc.o \
         $(ST)/src/stm32f4xx_fmc.o \
         $(ST)/src/stm32f4xx_spi.o \
         ../Common/fonts.o \
