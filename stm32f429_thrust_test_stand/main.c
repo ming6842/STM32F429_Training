@@ -49,19 +49,58 @@ void ADC_Initialization(void)
   ADC_Cmd(ADC1, ENABLE);
 }
 
-void LED3_Toggle(void){
+void LED_Initialization(void){
+
+  GPIO_InitTypeDef  GPIO_InitStructure;
+
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG , ENABLE); //LED3/4 GPIO Port
+
+  /* Configure the GPIO_LED pin */
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14;  // LED is connected to PG13/PG14
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_Init(GPIOG, &GPIO_InitStructure);
+
+}
+void GPIO_Configuration(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    /*-------------------------- GPIO Configuration for Push Button ----------------------------*/
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_OD ;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+}
+ 
+void LED4_Toggle(void){
 
 
-  GPIOG->ODR ^= GPIO_Pin_13;
+  GPIOG->ODR ^= GPIO_Pin_14;
+
+}
+uint8_t PushButton_Read(void){
+
+    return GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_0);
 
 }
 int main(void)
 {
 
   char lcd_text_main[100];
-  uint32_t runner=0;
   uint16_t adc_data1;
+
+  float voltage=0.0f,voltage_filtered = 0.0f;
+  float voltage_tare = 0.0f;
+  #define VOLT_LP 0.1f
+    GPIO_Configuration();
     ADC_Initialization();
+    LED_Initialization();
     lcd_init();
     lcd_drawBackground(20,60,250);
     lcd_drawBGPersimmon(20, 60, 250);
@@ -75,9 +114,21 @@ int main(void)
 
   while (1){
 
-    LED3_Toggle();
+    LED4_Toggle();
     adc_data1 = ADC_GetConversionValue(ADC1);
-     sprintf(lcd_text_main,"ADC : %d    ", adc_data1); 
+    voltage = (float)adc_data1/4095.0f*2.91f;
+    voltage_filtered = voltage * VOLT_LP + (1.0f- VOLT_LP)*voltage_filtered;
+
+    if(PushButton_Read()){
+        Delay_1us(50);
+        if(PushButton_Read()){
+          voltage_tare = voltage_filtered;
+        }
+
+    }
+
+
+     sprintf(lcd_text_main,"ADC : %f", (double)(voltage_filtered- voltage_tare) ); 
 
      LCD_DisplayStringLine(LINE(2), (uint8_t*)lcd_text_main);
 
