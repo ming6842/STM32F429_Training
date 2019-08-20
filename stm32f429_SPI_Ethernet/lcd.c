@@ -114,33 +114,33 @@ edgeColor =  ASSEMBLE_RGB(BLEND_THIS(255/5,LCD_COLOR_BLACK,alphaBlender),BLEND_T
 
     LCD_SetColors(edgeColor,ASSEMBLE_RGB(BGColor_R,BGColor_G,BGColor_B));
     LCD_SetFont(&Font16x24);
-    LCD_DisplayStringLine(LINE(10), (uint8_t*)"     Ce-91     ");
+    LCD_DisplayStringLine(LINE(10), (uint8_t*)" STM Example");
     LCD_SetFont(&Font8x12);
-    LCD_DisplayStringLine(LINE(23), (uint8_t*)"           Persimmon Dev Team");
-    LCD_DisplayStringLine(LINE(24), (uint8_t*)"             071 Research Lab");
+    LCD_DisplayStringLine(LINE(23), (uint8_t*)"                         Ming");
+    LCD_DisplayStringLine(LINE(24), (uint8_t*)"      avilon intelligence Co.");
     LCD_DisplayStringLine(LINE(25), (uint8_t*)"          All rights reserved");
 
 
     LCD_SetTextColor(edgeColor);
     LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75  , X_MIDDLE-75, Y_MIDDLE+75);
-    LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75-1, X_MIDDLE-75, Y_MIDDLE+75-1);
-    LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75+1, X_MIDDLE-75, Y_MIDDLE+75+1);
+    LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75-3, X_MIDDLE-75, Y_MIDDLE+75-3);
+    LCD_DrawUniLine(X_MIDDLE+75, Y_MIDDLE-75+3, X_MIDDLE-75, Y_MIDDLE+75+3);
 
     LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75  , X_MIDDLE+75, Y_MIDDLE+75);
-    LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75-1, X_MIDDLE+75, Y_MIDDLE+75-1);
-    LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75+1, X_MIDDLE+75, Y_MIDDLE+75+1);
+    LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75-3, X_MIDDLE+75, Y_MIDDLE+75-3);
+    LCD_DrawUniLine(X_MIDDLE-75, Y_MIDDLE-75+3, X_MIDDLE+75, Y_MIDDLE+75+3);
 
 
-    LCD_DrawFullRect(X_MIDDLE-60,Y_MIDDLE-5,120,10);
-    LCD_DrawFullRect(X_MIDDLE-5,Y_MIDDLE-60,10,120);
+    // LCD_DrawFullRect(X_MIDDLE-60,Y_MIDDLE-5,120,10);
+    // LCD_DrawFullRect(X_MIDDLE-5,Y_MIDDLE-60,10,120);
 
 
     DrawThickCircle(X_MIDDLE,Y_MIDDLE,30,7,edgeColor,innerColor);
 
-    DrawThickCircle(X_MIDDLE+60,Y_MIDDLE,22,   5,edgeColor,innerColor);
-    DrawThickCircle(X_MIDDLE-60,Y_MIDDLE,22,   5,edgeColor,innerColor);
-    DrawThickCircle(X_MIDDLE   ,Y_MIDDLE+60,22,5,edgeColor,innerColor);
-    DrawThickCircle(X_MIDDLE   ,Y_MIDDLE-60,22,5,edgeColor,innerColor);
+    // DrawThickCircle(X_MIDDLE+60,Y_MIDDLE,22,   5,edgeColor,innerColor);
+    // DrawThickCircle(X_MIDDLE-60,Y_MIDDLE,22,   5,edgeColor,innerColor);
+    // DrawThickCircle(X_MIDDLE   ,Y_MIDDLE+60,22,5,edgeColor,innerColor);
+    // DrawThickCircle(X_MIDDLE   ,Y_MIDDLE-60,22,5,edgeColor,innerColor);
 
     DrawThickCircle(X_MIDDLE+75,Y_MIDDLE+75,32,5,edgeColor,innerColor);
     DrawThickCircle(X_MIDDLE-75,Y_MIDDLE-75,32,5,edgeColor,innerColor);

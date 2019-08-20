@@ -26,7 +26,7 @@ CFLAGS_INCLUDE=-I. \
 CFLAGS_DEFINE= \
         -D USE_STDPERIPH_DRIVER \
         -D USE_STM32F429I_DISCO \
-        -D STM32F429_439xx
+        -D STM32F429_439xx \
         -D __FPU_PRESENT=1 \
         -D ARM_MATH_CM4 \
         -D __FPU_USED=1 \
@@ -138,6 +138,7 @@ gdbauto: cgdb
 cgdb_bmp: 
 	cgdb -d $(GDB) firmware.elf -x ./bmp_gdbinit.gdb
 flash_openocd:
+	make
 	openocd -f interface/stlink-v2.cfg \
 	-c "transport select hla_swd" \
 	-f target/stm32f4x_stlink.cfg \
