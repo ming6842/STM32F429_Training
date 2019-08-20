@@ -9,6 +9,7 @@ uint8_t SPI4_Xfer(uint8_t buf_dat){
       while (SPI_I2S_GetFlagStatus(SPI4, SPI_FLAG_RXNE) == RESET);
       receivedData=SPI_I2S_ReceiveData(SPI4);
   return receivedData;
+  
 }
 
 void SPI_Initialization(void){

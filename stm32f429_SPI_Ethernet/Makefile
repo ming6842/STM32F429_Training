@@ -79,6 +79,7 @@ LDFLAGS +=-T stm32f429zi_flash.ld
 LDLIBS +=-Wl,--start-group -lm -Wl,--end-group
 
 #============================================================================#
+#        $(IOLIB)/Internet/DHCP/dhcp.o \#
 
 STARTUP=./startup_stm32f429_439xx.o
 
@@ -95,7 +96,13 @@ OBJS=	./system_stm32f4xx.o \
         ../Common/fonts.o \
         $(STM32F429_LIB)/stm32f429i_discovery_lcd.o \
         $(STM32F429_LIB)/stm32f429i_discovery_sdram.o \
+        $(IOLIB)/Ethernet/wizchip_conf.o \
+        $(IOLIB)/Ethernet/W5500/w5500.o \
+        $(IOLIB)/Ethernet/socket.o \
+        $(IOLIB)/Internet/DHCP/dhcp.o \
+        $(IOLIB)/Internet/DNS/dns.o \
         ../Common/lcd_log.o \
+        ./sys_time.o \
         ./main.o \
         ./terminal.o \
         ./lcd.o \
