@@ -13,6 +13,7 @@ LD=arm-none-eabi-gcc
 CMSIS=../Libraries/CMSIS
 ST=../Libraries/STM32F4xx_StdPeriph_Driver
 STM32F429_LIB = ../STM32F429I-Discovery
+IOLIB = ./ioLibrary_Driver
 COMMON = ../Common
 #============================================================================#
 
@@ -20,6 +21,21 @@ CFLAGS_INCLUDE=-I. \
 	-I$(CMSIS)/Include\
 	-I$(CMSIS)/Device/ST/STM32F4xx/Include\
 	-I$(ST)/inc  \
+	-I$(IOLIB)/Ethernet  \
+	-I$(IOLIB)/Ethernet/W5100  \
+	-I$(IOLIB)/Ethernet/W5100S  \
+	-I$(IOLIB)/Ethernet/W5200  \
+	-I$(IOLIB)/Ethernet/W5300  \
+	-I$(IOLIB)/Ethernet/W5500  \
+	-I$(IOLIB)/Internet/DHCP  \
+	-I$(IOLIB)/Internet/DNS  \
+	-I$(IOLIB)/Internet/FTPClient  \
+	-I$(IOLIB)/Internet/FTPServer  \
+	-I$(IOLIB)/Internet/httpServer  \
+	-I$(IOLIB)/Internet/MQTT  \
+	-I$(IOLIB)/Internet/SNMP  \
+	-I$(IOLIB)/Internet/SNTP  \
+	-I$(IOLIB)/Internet/TFTP  \
 	-I$(STM32F429_LIB) \
 	-I$(COMMON)
 
@@ -83,6 +99,7 @@ OBJS=	./system_stm32f4xx.o \
         ./main.o \
         ./terminal.o \
         ./lcd.o \
+        ./spi.o \
         $(STARTUP) 
         
 #Make all
